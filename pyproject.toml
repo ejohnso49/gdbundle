@@ -1,12 +1,16 @@
-[tool.poetry]
+[project]
 name = "gdbundle"
 version = "0.0.4"
+authors = [
+    {name = "Tyler Hoffman", email = "tyler@memfault.com"},
+    {name = "Eric Johnson", email = "eric.j.johnson22@gmail.com"}
+]
 description = "Plugin Manager for GDB and LLDB"
-authors = ["Tyler Hoffman <tyler@memfault.com>"]
-homepage = "https://github.com/memfault/gdbundle"
-repository = "https://github.com/memfault/gdbundle"
-license = "MIT"
 readme = "README.md"
+license = "MIT"
+license-files = "LICENSE"
+requires-python = ">=3.9"
+dependencies = []
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Environment :: Plugins",
@@ -25,9 +29,10 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
-[tool.poetry.dependencies]
-python = "~2.7 || ^3.4"
+[project.urls]
+homepage = "https://github.com/ejohnso49/gdbundle"
+source = "https://github.com/ejohnso49/gdbundle"
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
