@@ -36,3 +36,10 @@ source = "https://github.com/ejohnso49/gdbundle"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+    "pytest>=8.3.4",
+    "ruff>=0.9.6",
+]
