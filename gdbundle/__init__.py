@@ -104,9 +104,9 @@ def load_commands():
     """
     debugger = get_debugger()
     if debugger == 'gdb':
-        from gdbundle import commands_gdb
+        importlib.import_module(".commands_gdb", __package__)
     elif debugger == 'lldb':
-        from gdbundle import commands_lldb
+        importlib.import_module(".commands_lldb", __package__)
 
 
 def init(include=None, exclude=None, additional=None):

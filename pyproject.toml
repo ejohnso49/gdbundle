@@ -43,3 +43,6 @@ dev = [
     "pytest>=8.3.4",
     "ruff>=0.9.6",
 ]
+
+[tools.ruff.format]
+quote-style = 'single'
