@@ -1,11 +1,11 @@
 # GDBundle - Plugin Manager for GDB and LLDB
 
-[![PyPI version](https://badge.fury.io/py/gdbundle.svg)](https://badge.fury.io/py/gdbundle)
-
 gdbundle is short for GDB bundle and is a plugin manager for GDB and LLDB.
 
 For detailed info about the origin story of gdbundle, read the announcement on Interrupt: 
 [gdbundle - GDB's Missing Plugin Manager](https://interrupt.memfault.com/blog/gdbundle-plugin-manager)
+
+This is a personal fork. Changes from memfault/gdbundle noted in commit history.
 
 ## Benefits
 
@@ -192,8 +192,13 @@ exclude = [
     #  projects and not all packages should be loaded
     # e.g. "example"
 ]
+
+additional = [
+    # List of packages to include that do not follow the gdbundle_ naming scheme
+]
+
 # Load the configured packages
-gdbundle.init(include=include, exclude=exclude)
+gdbundle.init(include=include, exclude=exclude, additional=additional)
 ```
 
 If you've created a Python package that has the necessary gdbundle hooks (e.g.
