@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import importlib
 import logging
 import pkgutil
+import functools
 
 logger = logging.getLogger(__name__)
 
@@ -10,29 +11,22 @@ DEBUGGER = None
 PLUGIN_PREFIX = "gdbundle_"
 LOADED_PLUGINS = []
 
-
+@functools.cache
 def get_debugger():
     """
     Test importing each debuggers Python module to figure out which
-    one we are in. Save it to the global state for others to use.
+    one we are in.
     """
-    global DEBUGGER
-
-    if DEBUGGER:
-        return DEBUGGER
-
     try:
-        import gdb
-        DEBUGGER = 'gdb'
-        return DEBUGGER
-    except:
+        if importlib.util.find_spec("gdb"):
+            return 'gdb'
+    except Exception:
         pass
 
     try:
-        import lldb
-        DEBUGGER = 'lldb'
-        return DEBUGGER
-    except:
+        if importlib.util.find_spec("lldb"):
+            return 'lldb'
+    except Exception:
         pass
 
     raise Exception("Could not detect debugger used")
@@ -48,15 +42,15 @@ def load_module(module_name):
     try:
         loader_name = "{}.{}_loader".format(module_name, get_debugger())
         plugin_loader = importlib.import_module(loader_name)
-    except Exception as e:
+    except Exception:
         logging.warning("Failed to import gdbundle module: {}".format(module_name), exc_info=True)
         return
 
     # Get the GDB scripts from the module
     try:
-        scripts = plugin_loader.gdbundle_load()
-    except Exception as e:
-        logging.warning("Failed to call `gdb_scripts` function in gdbundle module: {}".format(module_name), exc_info=True)
+        plugin_loader.gdbundle_load()
+    except Exception:
+        logging.warning("gdbundle_load() failed in gdbundle module: {}".format(module_name), exc_info=True)
         return
 
     LOADED_PLUGINS.append(module_name)
@@ -98,9 +92,10 @@ def discover_and_load_plugins(include=None, exclude=None, additional=None):
         # Import the plugin module
         load_plugin(name)
 
-    for name in additional:
-        # Import other plugins that don't use PLUGIN_PREFIX
-        load_plugin(name, prefix=False)
+    if additional:
+        for name in additional:
+            # Import other plugins that don't use PLUGIN_PREFIX
+            load_plugin(name, prefix=False)
 
 
 def load_commands():
