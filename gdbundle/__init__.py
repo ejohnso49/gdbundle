@@ -62,16 +62,16 @@ def load_module(module_name):
     LOADED_PLUGINS.append(module_name)
 
 
-def load_plugin(name):
+def load_plugin(name, prefix=True):
     """
     Attempt to load the plugin with the name given.
 
     :param module_name: Explicit plugin to load.
     """
-    load_module(PLUGIN_PREFIX + name)
+    load_module(PLUGIN_PREFIX + name if prefix else name)
 
 
-def discover_and_load_plugins(include=None, exclude=None):
+def discover_and_load_plugins(include=None, exclude=None, additional=None):
     """
     This will load the gdbundle GDB commands and discover and load gdbundle
     plugins.
@@ -98,6 +98,10 @@ def discover_and_load_plugins(include=None, exclude=None):
         # Import the plugin module
         load_plugin(name)
 
+    for name in additional:
+        # Import other plugins that don't use PLUGIN_PREFIX
+        load_plugin(name, prefix=False)
+
 
 def load_commands():
     """
@@ -110,7 +114,7 @@ def load_commands():
         from gdbundle import commands_lldb
 
 
-def init(include=None, exclude=None):
+def init(include=None, exclude=None, additional=None):
     """
     The default entry point for gdbundle. This will load the gdbundle GDB
     commands and discover and load gdbundle plugins.
@@ -123,4 +127,4 @@ def init(include=None, exclude=None):
               then it would be included by using `gdbundle.init(include=["example"])
     """
     load_commands()
-    discover_and_load_plugins(include=include, exclude=exclude)
+    discover_and_load_plugins(include=include, exclude=exclude, additional=additional)
