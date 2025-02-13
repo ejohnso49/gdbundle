@@ -11,6 +11,7 @@ DEBUGGER = None
 PLUGIN_PREFIX = "gdbundle_"
 LOADED_PLUGINS = []
 
+
 @functools.cache
 def get_debugger():
     """
@@ -19,13 +20,13 @@ def get_debugger():
     """
     try:
         if importlib.util.find_spec("gdb"):
-            return 'gdb'
+            return "gdb"
     except Exception:
         pass
 
     try:
         if importlib.util.find_spec("lldb"):
-            return 'lldb'
+            return "lldb"
     except Exception:
         pass
 
@@ -43,14 +44,19 @@ def load_module(module_name):
         loader_name = "{}.{}_loader".format(module_name, get_debugger())
         plugin_loader = importlib.import_module(loader_name)
     except Exception:
-        logging.warning("Failed to import gdbundle module: {}".format(module_name), exc_info=True)
+        logging.warning(
+            "Failed to import gdbundle module: {}".format(module_name), exc_info=True
+        )
         return
 
     # Get the GDB scripts from the module
     try:
         plugin_loader.gdbundle_load()
     except Exception:
-        logging.warning("gdbundle_load() failed in gdbundle module: {}".format(module_name), exc_info=True)
+        logging.warning(
+            "gdbundle_load() failed in gdbundle module: {}".format(module_name),
+            exc_info=True,
+        )
         return
 
     LOADED_PLUGINS.append(module_name)
@@ -103,9 +109,9 @@ def load_commands():
     Load the GDB commands for gdbundle
     """
     debugger = get_debugger()
-    if debugger == 'gdb':
+    if debugger == "gdb":
         importlib.import_module(".commands_gdb", __package__)
-    elif debugger == 'lldb':
+    elif debugger == "lldb":
         importlib.import_module(".commands_lldb", __package__)
 
 

@@ -5,11 +5,18 @@ import subprocess
 import sys
 
 # Execute a Python using the user's shell and pull out the sys.path (for site-packages)
-paths = subprocess.check_output('python -c "import os,sys;print(os.linesep.join(sys.path).strip())"',shell=True).decode("utf-8").split()
+paths = (
+    subprocess.check_output(
+        'python -c "import os,sys;print(os.linesep.join(sys.path).strip())"', shell=True
+    )
+    .decode("utf-8")
+    .split()
+)
 # Extend GDB's Python's search path
 sys.path.extend(paths)
 
 # Init and load plugins
-import gdbundle # noqa: E402
+import gdbundle  # noqa: E402
+
 gdbundle.init()
 # -- gdbundle_BEGIN

@@ -1,11 +1,14 @@
 import gdb
 from gdbundle import LOADED_PLUGINS
 
+
 class GDBundleCommand(gdb.Command):
     GDB_CMD = "gdbundle override_me"
 
     def __init__(self, *args, **kwargs):
-        super(GDBundleCommand, self).__init__(self.GDB_CMD, gdb.COMMAND_USER, *args, **kwargs)
+        super(GDBundleCommand, self).__init__(
+            self.GDB_CMD, gdb.COMMAND_USER, *args, **kwargs
+        )
 
 
 class GDBundle(GDBundleCommand):
@@ -22,7 +25,7 @@ class GDBundle(GDBundleCommand):
 
 class GDBundleListPlugins(GDBundleCommand):
     """List GDBundle packages"""
-    
+
     GDB_CMD = "gdbundle list"
 
     def invoke(self, _unicode_args, _from_tty):
