@@ -268,3 +268,9 @@ $RECYCLE.BIN/
 
 # Idk
 *.profraw
+
+# Ruff
+.ruff_cache/
+
+# Coverage reports
+tests/reports/
