@@ -62,13 +62,13 @@ def load_module(module_name):
     LOADED_PLUGINS.append(module_name)
 
 
-def load_plugin(name, prefix=True):
+def load_plugin(name):
     """
     Attempt to load the plugin with the name given.
 
     :param module_name: Explicit plugin to load.
     """
-    load_module(PLUGIN_PREFIX + name if prefix else name)
+    load_module(PLUGIN_PREFIX + name)
 
 
 def discover_and_load_plugins(include=None, exclude=None, additional=None):
@@ -80,7 +80,7 @@ def discover_and_load_plugins(include=None, exclude=None, additional=None):
     # Pull out all possible plugins matching the prefix
     plugins = [
         name.replace(PLUGIN_PREFIX, "").lower()
-        for finder, name, ispkg in pkgutil.iter_modules()
+        for _, name, _ in pkgutil.iter_modules()
         if name.startswith(PLUGIN_PREFIX)
     ]
 
@@ -101,7 +101,7 @@ def discover_and_load_plugins(include=None, exclude=None, additional=None):
     if additional:
         for name in additional:
             # Import other plugins that don't use PLUGIN_PREFIX
-            load_plugin(name, prefix=False)
+            load_module(name)
 
 
 def load_commands():
