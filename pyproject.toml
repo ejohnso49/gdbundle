@@ -41,6 +41,16 @@ build-backend = "hatchling.build"
 dev = [
     "mypy>=1.15.0",
     "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
     "pytest-mock>=3.14.0",
     "ruff>=0.9.6",
+]
+
+[tool.pytest.ini_options]
+addopts = """
+--cov=gdbundle/ \
+--cov-report html:tests/reports/coverage-html \
+"""
+testpaths = [
+    "tests",
 ]

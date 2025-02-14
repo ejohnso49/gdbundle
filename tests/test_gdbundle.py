@@ -46,8 +46,15 @@ def test_debugger_gdb(find_spec):
 def test_debugger_lldb(find_spec):
     # We have to clear the cache to allow the mocked function calls to return the side effect values
     gdbundle.get_debugger.cache_clear()
-    find_spec.side_effect = [None, True]
+    find_spec.side_effect = [Exception("No gdb"), True]
     assert "lldb" == gdbundle.get_debugger()
+
+
+def test_debugger_none(find_spec):
+    gdbundle.get_debugger.cache_clear()
+    find_spec.side_effect = Exception("No debugger")
+    with pytest.raises(Exception):
+        gdbundle.get_debugger()
 
 
 def test_load_module(get_debugger, import_module):
