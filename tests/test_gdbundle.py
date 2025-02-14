@@ -99,3 +99,31 @@ def test_discover_exclude_plugins(iter_modules, load_plugin):
 def test_discover_additional_plugins(iter_modules, load_module):
     gdbundle.discover_and_load_plugins(exclude=["test_1", "test_2"], additional=["bundle_test_2"])
     load_module.assert_called_once_with("bundle_test_2")
+
+
+def test_load_commands_gdb(import_module, get_debugger):
+    get_debugger.return_value = "gdb"
+    gdbundle.load_commands()
+
+    import_module.assert_called_once_with(".commands_gdb", "gdbundle")
+
+
+def test_load_commands_lldb(import_module, get_debugger):
+    get_debugger.return_value = "lldb"
+    gdbundle.load_commands()
+
+    import_module.assert_called_once_with(".commands_lldb", "gdbundle")
+
+
+def test_init(mocker):
+    load_commands = mocker.patch("gdbundle.load_commands")
+    discover = mocker.patch("gdbundle.discover_and_load_plugins")
+
+    include = ["test_1", "test_2"]
+    exclude = ["test_3"]
+    additional = ["test_4"]
+
+    gdbundle.init(include, exclude, additional)
+
+    load_commands.assert_called_once()
+    discover.assert_called_once_with(include=include, exclude=exclude, additional=additional)
