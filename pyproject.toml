@@ -44,6 +44,8 @@ dev = [
     "pytest-cov>=6.0.0",
     "pytest-mock>=3.14.0",
     "ruff>=0.9.6",
+    "six>=1.17.0",
+    "types-gdb>=15.0.0.20241204",
 ]
 
 [tool.pytest.ini_options]
