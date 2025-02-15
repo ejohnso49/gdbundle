@@ -104,7 +104,9 @@ def test_discover_exclude_plugins(iter_modules, load_plugin):
 
 
 def test_discover_additional_plugins(iter_modules, load_module):
-    gdbundle.discover_and_load_plugins(exclude=["test_1", "test_2"], additional=["bundle_test_2"])
+    gdbundle.discover_and_load_plugins(
+        exclude=["test_1", "test_2"], additional=["bundle_test_2"]
+    )
     load_module.assert_called_once_with("bundle_test_2")
 
 
@@ -133,4 +135,6 @@ def test_init(mocker):
     gdbundle.init(include, exclude, additional)
 
     load_commands.assert_called_once()
-    discover.assert_called_once_with(include=include, exclude=exclude, additional=additional)
+    discover.assert_called_once_with(
+        include=include, exclude=exclude, additional=additional
+    )

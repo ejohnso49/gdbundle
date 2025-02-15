@@ -1,7 +1,7 @@
 import gdbundle
 
-def main():
 
+def main():
     gdbundle.init()
 
     debugger = gdbundle.get_debugger()

@@ -1,5 +1,11 @@
 # Copy-Paste the sample_lldbinit.py file somewhere
 # $ mv gdbundle/sample_lldbinit.py ~/lldbinit.py
 
-# NOTE: The filename must be a valid Python module name (no - or .)
-command script import 'tests/lldbinit.py'
+# LLDB seems to have different behavior when using command script vs script
+# It's not clear what the difference is but using a plain script seems to allow for the loading
+# of modules successfully. So we instead setup things with tests.lldbinit, initialize gdbundle,
+# then run a basic test
+script import tests.lldbinit
+script import gdbundle; gdbundle.init()
+script import basic_tests; basic_tests.main()
+# command script import 'tests/basic_tests.py'

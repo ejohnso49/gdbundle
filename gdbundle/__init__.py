@@ -1,6 +1,4 @@
-from __future__ import absolute_import
-
-import importlib
+import importlib.util
 import logging
 import pkgutil
 import functools
@@ -13,7 +11,7 @@ LOADED_PLUGINS = []
 
 
 @functools.cache
-def get_debugger():
+def get_debugger() -> str:
     """
     Test importing each debuggers Python module to figure out which
     one we are in.
@@ -33,7 +31,7 @@ def get_debugger():
     raise Exception("Could not detect debugger used")
 
 
-def load_module(module_name):
+def load_module(module_name: str) -> None:
     """
     Attempt to load the module with the name given.
 
@@ -62,7 +60,7 @@ def load_module(module_name):
     LOADED_PLUGINS.append(module_name)
 
 
-def load_plugin(name):
+def load_plugin(name: str) -> None:
     """
     Attempt to load the plugin with the name given.
 
@@ -71,7 +69,11 @@ def load_plugin(name):
     load_module(PLUGIN_PREFIX + name)
 
 
-def discover_and_load_plugins(include=None, exclude=None, additional=None):
+def discover_and_load_plugins(
+    include: list[str] | None = None,
+    exclude: list[str] | None = None,
+    additional: list[str] | None = None,
+) -> None:
     """
     This will load the gdbundle GDB commands and discover and load gdbundle
     plugins.
@@ -104,7 +106,7 @@ def discover_and_load_plugins(include=None, exclude=None, additional=None):
             load_module(name)
 
 
-def load_commands():
+def load_commands() -> None:
     """
     Load the GDB commands for gdbundle
     """
@@ -115,7 +117,11 @@ def load_commands():
         importlib.import_module(".commands_lldb", __package__)
 
 
-def init(include=None, exclude=None, additional=None):
+def init(
+    include: list[str] | None = None,
+    exclude: list[str] | None = None,
+    additional: list[str] | None = None,
+) -> None:
     """
     The default entry point for gdbundle. This will load the gdbundle GDB
     commands and discover and load gdbundle plugins.

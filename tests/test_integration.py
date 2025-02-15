@@ -7,7 +7,6 @@ def test_gdb():
 
 def test_lldb():
     import sys
-    env = {
-        "PYTHONPATH": ":".join(sys.path[1:])
-    }
+
+    env = {"PYTHONPATH": ":".join(sys.path[1:])}
     subprocess.run(["lldb", "-s", "tests/lldbinit", "--batch"], check=True, env=env)
