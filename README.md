@@ -2,10 +2,20 @@
 
 gdbundle is short for GDB bundle and is a plugin manager for GDB and LLDB.
 
-For detailed info about the origin story of gdbundle, read the announcement on Interrupt: 
+For detailed info about the origin story of gdbundle, read the announcement on Interrupt:
 [gdbundle - GDB's Missing Plugin Manager](https://interrupt.memfault.com/blog/gdbundle-plugin-manager)
 
-This is a personal fork. Changes from memfault/gdbundle noted in commit history.
+This is a personal fork, see Fork Changes for more info.
+
+## Fork Changes
+
+- Added the `additional` parameter to specify packages that don't use a `gdbundle-` prefix
+- Ported Python packaging tool from `poetry` to [`uv`](https://github.com/astral-sh/uv)
+- Removed support for obsolete Python versions, now requires Python 3.9 and above
+- Added more complete test coverage
+- Added linting and formatting with [`ruff`](https://github.com/astral-sh/ruff)
+- Added pre-commit hooks with [`lefthook`](https://github.com/evilmartians/lefthook)
+- Removed `tox` and `Docker` related files to help simplify testing
 
 ## Benefits
 
@@ -35,9 +45,9 @@ For now, a list is kept here as well:
 
 ## Quickstart
 
-> NOTE: The Python compiled with GDB should be the same major version as 
-> the Python in the local virtual, Conda, or local environment that 
-> you are installing gdbundle and plugins into. 
+> NOTE: The Python compiled with GDB should be the same major version as
+> the Python in the local virtual, Conda, or local environment that
+> you are installing gdbundle and plugins into.
 
 To check both versions of Python, you can run the following:
 
